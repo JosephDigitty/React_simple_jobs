@@ -1,5 +1,20 @@
+import { useState } from "react";
+import { FaMapMarker } from "react-icons/fa"
+import { Link } from "react-router-dom";
 
-const Joblisting = () => {
+const Joblisting = ({job}) => {
+    const [showDescription, setShowdDescription] = useState(false)
+
+    let description = job.description
+
+    if (!showDescription) {
+        description = job.description.substr(0, 90) + '...'
+    }
+
+    const toggleDescription = () => {
+      setShowdDescription(prevState => !prevState)
+    }
+
     return ( 
         <div class="bg-white rounded-xl shadow-md relative">
           <div class="p-4">
@@ -9,24 +24,24 @@ const Joblisting = () => {
             </div>
 
             <div class="mb-5">
-              {job.description}
+              {description}
             </div>
-
+            <button onClick={toggleDescription} className="text-indigo-500 mb-5 hover:text-indigo-600">{!showDescription? "more" : "less"}</button>
             <h3 class="text-indigo-500 mb-2">{job.salary}/ Year</h3>
 
             <div class="border border-gray-100 mb-5"></div>
 
             <div class="flex flex-col lg:flex-row justify-between mb-4">
               <div class="text-orange-700 mb-3">
-                <i class="fa-solid fa-location-dot text-lg"></i>
+                <FaMapMarker className="inline text-lg mb-1 mr-1" />
                 {job.location}
               </div>
-              <a
-                href={`/job/${job.id}`}
+              <Link
+                to={`/job/${job.id}`}
                 class="h-[36px] bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-center text-sm"
               >
                Read More
-              </a>
+              </Link>
             </div>
           </div>
         </div>
